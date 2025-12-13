@@ -18,17 +18,10 @@ export const routes: RouteConfig[] = [
     allowedRoles: [],
     requiresAuth: false,
   },
-  // Add more routes as needed
-  // {
-  //   path: '/teacher-dashboard',
-  //   component: 'TeacherDashboard',
-  //   allowedRoles: ['teacher'],
-  //   requiresAuth: true,
-  // },
-  // {
-  //   path: '/student-lessons',
-  //   component: 'StudentLessons',
-  //   allowedRoles: ['student'],
-  //   requiresAuth: true,
-  // },
+  {
+    path: '/body-parts-game',
+    component: 'BodyPartsGame',
+    allowedRoles: ['student', 'teacher'],
+    requiresAuth: true,
+  },
 ];

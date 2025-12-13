@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { register as registerService } from '../services/authService';
 import { useAuth } from '../context/AuthContext';
 import Toast from './Toast';
@@ -6,11 +7,8 @@ import { ToastState, RegisterData } from '../types';
 import './Auth.css';
 import './Toast.css';
 
-interface RegisterProps {
-  setPage: (page: 'login' | 'register') => void;
-}
-
-const Register: React.FC<RegisterProps> = ({ setPage }) => {
+const Register: React.FC = () => {
+  const navigate = useNavigate();
   const { login } = useAuth();
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -83,7 +81,7 @@ const Register: React.FC<RegisterProps> = ({ setPage }) => {
           </button>
         </form>
         <p className="auth-link">
-          ¿Ya tienes una cuenta? <span onClick={() => setPage('login')} style={{cursor: 'pointer', color: 'var(--color3)'}}>Inicia sesión aquí</span>
+          ¿Ya tienes una cuenta? <span onClick={() => navigate('/login')} style={{cursor: 'pointer', color: 'var(--color3)'}}>Inicia sesión aquí</span>
         </p>
       </div>
       {toast.show && <Toast message={toast.message} type={toast.type} onClose={() => setToast({ ...toast, show: false })} />}

@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Home.css';
 
 const Home: React.FC = () => {
   const { user, logout } = useAuth();
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const navigate = useNavigate();
 
   const handleButtonClick = (action: string) => {
-    alert(`Función ${action} próximamente disponible!`);
+    if (action === 'Conoce las partes del cuerpo humano') {
+      navigate('/body-parts-game');
+    } else {
+      alert(`Función ${action} próximamente disponible!`);
+    }
   };
 
   return (
@@ -46,7 +52,7 @@ const Home: React.FC = () => {
               <button className="game-button" onClick={() => handleButtonClick('Juegos')}>
                 🎮 Ritual de agradecimiento
               </button>
-              <button className="game-button" onClick={() => handleButtonClick('Progreso')}>
+              <button className="game-button" onClick={() => handleButtonClick('Conoce las partes del cuerpo humano')}>
                 📊 Conoce las partes del cuerpo humano
               </button>
               <button className="game-button" onClick={() => handleButtonClick('Logros')}>
