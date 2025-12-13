@@ -29,8 +29,8 @@
 }
 
 .placeholder { position:absolute; width:140px; height:140px; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#8B4513; border:2px dashed rgba(139,69,19,0.4); background: rgba(255,255,255,0.6); }
-.placeholder.left { left:20px; top:50%; transform:translateY(-50%); }
-.placeholder.right { right:20px; top:50%; transform:translateY(-50%); }
+.placeholder.left { left:33%; top:50%; transform:translate(-50%,-50%); }
+.placeholder.right { left:66%; top:50%; transform:translate(-50%,-50%); }
 .placeholder.center { left:50%; top:50%; transform:translate(-50%,-50%); width:160px; height:160px }
 .ph-label { font-size:0.95rem; text-align:center; padding:8px }
 
