@@ -41,13 +41,13 @@ const Home: React.FC = () => {
           {user?.role === 'student' && (
             <div className="button-grid">
               <button className="game-button" onClick={() => handleButtonClick('Lecciones')}>
-                📚 Lecciones Interactivas
+                📚 Adivina la palabra
               </button>
               <button className="game-button" onClick={() => handleButtonClick('Juegos')}>
-                🎮 Juegos Educativos
+                🎮 Ritual de agradecimiento
               </button>
               <button className="game-button" onClick={() => handleButtonClick('Progreso')}>
-                📊 Mi Progreso
+                📊 Conoce las partes del cuerpo humano
               </button>
               <button className="game-button" onClick={() => handleButtonClick('Logros')}>
                 🏆 Logros y Medallas
