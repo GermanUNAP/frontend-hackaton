@@ -1,12 +1,12 @@
-/* Tema Educativo Futurista */
+/* Tema Educativo Marrón para Niños */
 :root {
-  --color1: #0000ff; /* Azul intenso */
-  --color2: #ffffff; /* Blanco */
-  --color3: #00ff00; /* Verde intenso */
+  --color1: #8B4513; /* Marrón oscuro */
+  --color2: #F5DEB3; /* Beige claro */
+  --color3: #D2691E; /* Marrón chocolate */
   --background: linear-gradient(135deg, var(--color1) 0%, var(--color3) 100%);
-  --card-bg: rgba(255, 255, 255, 0.1);
-  --text-color: var(--color2);
-  --error-color: #ff0000; /* Rojo intenso para errores */
+  --card-bg: rgba(245, 222, 179, 0.9);
+  --text-color: var(--color1);
+  --error-color: #8B0000; /* Rojo oscuro para errores */
 }
 
 .auth-container {
@@ -15,16 +15,16 @@
   align-items: center;
   min-height: 100vh;
   background: var(--background);
-  font-family: 'Arial', sans-serif;
+  font-family: 'Fredoka One', sans-serif;
 }
 
 .auth-card {
   background: var(--card-bg);
   backdrop-filter: blur(10px);
-  border-radius: 20px;
+  border-radius: 30px;
   padding: 40px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(139, 69, 19, 0.5);
+  border: 2px solid var(--color3);
   width: 100%;
   max-width: 400px;
   animation: fadeIn 1s ease-in-out;
@@ -39,15 +39,15 @@
   color: var(--text-color);
   text-align: center;
   margin-bottom: 10px;
-  font-size: 2rem;
-  text-shadow: 0 0 10px var(--color1);
+  font-size: 2.5rem;
+  text-shadow: 2px 2px 4px var(--color3);
 }
 
 .auth-subtitle {
-  color: var(--color3);
+  color: var(--color1);
   text-align: center;
   margin-bottom: 30px;
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 .auth-form {
@@ -69,45 +69,64 @@
 .input-group input {
   width: 100%;
   padding: 12px;
-  border: none;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.2);
-  color: var(--text-color);
+  border: 2px solid var(--color3);
+  border-radius: 15px;
+  background: var(--color2);
+  color: var(--color1);
   font-size: 1rem;
   outline: none;
   transition: all 0.3s ease;
+  font-family: 'Fredoka One', sans-serif;
 }
 
 .input-group input::placeholder {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(139, 69, 19, 0.6);
 }
 
 .input-group input:focus {
-  box-shadow: 0 0 10px var(--color1);
-  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 15px var(--color3);
+  background: #FFF8DC;
+  border-color: var(--color1);
 }
 
 .auth-button {
-  background: linear-gradient(45deg, var(--color1), var(--color2));
-  color: var(--color1);
-  border: none;
+  background: linear-gradient(45deg, var(--color3), var(--color1));
+  color: var(--color2);
+  border: 3px solid var(--color1);
   padding: 15px;
-  border-radius: 10px;
-  font-size: 1.1rem;
+  border-radius: 25px;
+  font-size: 1.2rem;
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 10px;
+  font-family: 'Fredoka One', sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }
 
 .auth-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px var(--color1);
+  transform: translateY(-3px) scale(1.1);
+  box-shadow: 0 6px 25px var(--color3);
+  animation: none;
+}
+
+.auth-button:active:not(:disabled) {
+  transform: translateY(0) scale(1.05);
 }
 
 .auth-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
+  animation: none;
 }
 
 .error {
@@ -121,6 +140,7 @@
   text-align: center;
   margin-top: 20px;
   color: var(--text-color);
+  font-family: 'Fredoka One', sans-serif;
 }
 
 .auth-link span {
@@ -128,8 +148,10 @@
   text-decoration: none;
   font-weight: bold;
   cursor: pointer;
+  transition: color 0.3s ease;
 }
 
 .auth-link span:hover {
+  color: var(--color1);
   text-decoration: underline;
 }

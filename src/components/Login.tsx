@@ -20,22 +20,20 @@ const Login: React.FC<LoginProps> = ({ setPage }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    try {
-      const data: LoginData = { email, password };
-      const response = await loginService(data);
-      if (response.token && response.user) {
-        login(response.user, response.token);
-        setToast({ message: 'Inicio de sesión exitoso', type: 'success', show: true });
-        setTimeout(() => setToast({ ...toast, show: false }), 3000);
-      } else {
-        setToast({ message: 'Error en el inicio de sesión. Verifica tus credenciales.', type: 'error', show: true });
-        setTimeout(() => setToast({ ...toast, show: false }), 3000);
-      }
-    } catch (err) {
-      setToast({ message: 'Error en el inicio de sesión. Verifica tus credenciales.', type: 'error', show: true });
+    // Simulate fake login for student
+    setTimeout(() => {
+      const fakeUser = {
+        id: '1',
+        name: 'Estudiante Ejemplo',
+        email: email,
+        role: 'student' as const,
+      };
+      const fakeToken = 'fake-token';
+      login(fakeUser, fakeToken);
+      setToast({ message: 'Inicio de sesión exitoso', type: 'success', show: true });
       setTimeout(() => setToast({ ...toast, show: false }), 3000);
-    }
-    setIsLoading(false);
+      setIsLoading(false);
+    }, 1000);
   };
 
   return (
