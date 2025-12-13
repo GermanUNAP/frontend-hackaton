@@ -1,25 +1,16 @@
-import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
+import BodyPartsGame from './components/BodyPartsGame';
 import WordlePage from './components/WordlePage';
+import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
 const AppContent: React.FC = () => {
-  const { isAuthenticated, user } = useAuth();
-  const [page, setPage] = useState<'login' | 'register'>('login');
-
-  if (isAuthenticated) {
-    return (
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/wordle" element={<WordlePage lang="ay" />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    );
-  }
+  const { isAuthenticated } = useAuth();
 
   return (
     <Routes>
@@ -63,6 +54,14 @@ const AppContent: React.FC = () => {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/wordle"
+        element={
+          <ProtectedRoute>
+            <WordlePage lang="ay" />
+          </ProtectedRoute>
+        }
+      />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
@@ -70,11 +69,11 @@ const AppContent: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
+    <Router>
       <AuthProvider>
         <AppContent />
       </AuthProvider>
-    </BrowserRouter>
+    </Router>
   );
 };
 
