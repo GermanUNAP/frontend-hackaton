@@ -19,6 +19,12 @@ export const routes: RouteConfig[] = [
     requiresAuth: false,
   },
   {
+    path: '/body-parts-game',
+    component: 'BodyPartsGame',
+    allowedRoles: ['student', 'teacher'],
+    requiresAuth: true,
+  },
+  {
     path: '/wordle',
     component: 'WordlePage',
     allowedRoles: ['student'],

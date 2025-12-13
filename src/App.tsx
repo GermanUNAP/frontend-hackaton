@@ -7,6 +7,8 @@ import Home from './components/Home';
 import WordlePage from './components/WordlePage';
 import Ritual from './components/Ritual';
 import './App.css';
+import ProtectedRoute from './components/ProtectedRoute';
+import BodyPartsGame from './components/BodyPartsGame';
 
 const AppContent: React.FC = () => {
   const { isAuthenticated, user } = useAuth();
@@ -24,9 +26,49 @@ const AppContent: React.FC = () => {
   }
 
   return (
-    <div className="App">
-      {page === 'login' ? <Login setPage={setPage} /> : <Register setPage={setPage} />}
-    </div>
+    <Routes>
+      <Route
+        path="/login"
+        element={
+          isAuthenticated ? (
+            <Navigate to="/" replace />
+          ) : (
+            <div className="App">
+              <Login />
+            </div>
+          )
+        }
+      />
+      <Route
+        path="/register"
+        element={
+          isAuthenticated ? (
+            <Navigate to="/" replace />
+          ) : (
+            <div className="App">
+              <Register />
+            </div>
+          )
+        }
+      />
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/body-parts-game"
+        element={
+          <ProtectedRoute>
+            <BodyPartsGame />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 };
 
