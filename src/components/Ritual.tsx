@@ -15,7 +15,10 @@ const availableItems: ItemDef[] = [
   { id: 'coca', type: 'coca', label: 'Hojas de coca', tooltip: 'Hojas de coca - elemento central del ritual.', image: '/imgs/hojas-coca.png' },
 ];
 
+const SCALES: { [k: string]: number } = { papa: 1, queso: 1, mandarina: 1, pinia: 1, platano: 1, wine1: 1, wine2: 1, coca: 1 };
+
 const Ritual: React.FC = () => {
+  const [showModal, setShowModal] = useState(true);
   const [placed, setPlaced] = useState<any[]>([]);
   const [placeholders, setPlaceholders] = useState<{ [k: string]: ItemDef | null }>({
     wineLeft: null,
@@ -85,7 +88,7 @@ const Ritual: React.FC = () => {
         setPlaced((p) => p.map((it) => (it.id === payload.id ? { ...it, x, y } : it)));
       } else {
         // place new item from bar
-        setPlaced((p) => [...p, { ...item, x, y, id: item.id + '-' + Date.now() }]);
+        setPlaced((p) => [...p, { ...item, originalId: item.id, x, y, id: item.id + '-' + Date.now() }]);
       }
     }
   };
@@ -109,6 +112,15 @@ const Ritual: React.FC = () => {
         <Link to="/" className="game-button small">Volver</Link>
       </header>
 
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>Instrucciones</h2>
+            <p>Coloca dos copas de vino en los lados y las hojas de coca en el centro. Arrastra otros objetos si lo deseas.</p>
+            <button className="game-button" onClick={() => setShowModal(false)}>Comenzar</button>
+          </div>
+        </div>
+      )}
       <main className="ritual-main">
         <div
           className="blanket"
@@ -121,34 +133,37 @@ const Ritual: React.FC = () => {
             backgroundPosition: 'center',
           }}
         >
-          <div className="placeholder left" data-placeholder="wineLeft">
-            {placeholders.wineLeft ? <div className="placed small"><img src={placeholders.wineLeft.image} alt={placeholders.wineLeft.label} className="placed-img small" /></div> : <div className="ph-label">Copa de vino (izq)</div>}
+          <div className={`placeholder left ${placeholders.wineLeft ? 'occupied' : ''}`} data-placeholder="wineLeft">
+            {placeholders.wineLeft ? <img src={placeholders.wineLeft.image} alt={placeholders.wineLeft.label} className="placeholder-img" style={{ transform: `scale(${SCALES[placeholders.wineLeft.id] || 1})` }} /> : <div className="ph-label">Copa de vino (izq)</div>}
           </div>
 
-          <div className="placeholder center" data-placeholder="coca">
-            {placeholders.coca ? <div className="placed small"><img src={placeholders.coca.image} alt={placeholders.coca.label} className="placed-img" /></div> : <div className="ph-label">Hojas de coca (centro)</div>}
+          <div className={`placeholder center ${placeholders.coca ? 'occupied' : ''}`} data-placeholder="coca">
+            {placeholders.coca ? <img src={placeholders.coca.image} alt={placeholders.coca.label} className="placeholder-img" style={{ transform: `scale(${SCALES[placeholders.coca.id] || 1})` }} /> : <div className="ph-label">Hojas de coca (centro)</div>}
           </div>
 
-          <div className="placeholder right" data-placeholder="wineRight">
-            {placeholders.wineRight ? <div className="placed small"><img src={placeholders.wineRight.image} alt={placeholders.wineRight.label} className="placed-img small" /></div> : <div className="ph-label">Copa de vino (der)</div>}
+          <div className={`placeholder right ${placeholders.wineRight ? 'occupied' : ''}`} data-placeholder="wineRight">
+            {placeholders.wineRight ? <img src={placeholders.wineRight.image} alt={placeholders.wineRight.label} className="placeholder-img" style={{ transform: `scale(${SCALES[placeholders.wineRight.id] || 1})` }} /> : <div className="ph-label">Copa de vino (der)</div>}
           </div>
 
-          {placed.map((it) => (
-            <div
-              key={it.id}
-              className="placed absolute"
-              style={{ left: it.x - 20 + 'px', top: it.y - 20 + 'px' }}
-              draggable
-              onDragStart={(e) => onPlacedDragStart(e, it)}
-              onDoubleClick={() => removePlaced(it.id)}
-              onMouseEnter={(e) => setTooltip({ text: it.tooltip, x: e.clientX + 10, y: e.clientY + 10 })}
-              onMouseMove={(e) => setTooltip((t) => (t ? { ...t, x: e.clientX + 10, y: e.clientY + 10 } : t))}
-              onMouseLeave={() => setTooltip(null)}
-            >
-              <img src={it.image} alt={it.label} className="placed-img" />
-              <div className="placed-label">{it.label}</div>
-            </div>
-          ))}
+          {placed.map((it) => {
+            const originalId = it.originalId || (it.id ? it.id.split('-')[0] : undefined);
+            const scale = SCALES[originalId || ''] || 1;
+            return (
+              <div
+                key={it.id}
+                className="placed absolute"
+                style={{ left: it.x - 20 + 'px', top: it.y - 20 + 'px' }}
+                draggable
+                onDragStart={(e) => onPlacedDragStart(e, it)}
+                onDoubleClick={() => removePlaced(it.id)}
+                onMouseEnter={(e) => setTooltip({ text: it.tooltip, x: e.clientX + 10, y: e.clientY + 10 })}
+                onMouseMove={(e) => setTooltip((t) => (t ? { ...t, x: e.clientX + 10, y: e.clientY + 10 } : t))}
+                onMouseLeave={() => setTooltip(null)}
+              >
+                <img src={it.image} alt={it.label} className="placed-img" style={{ transform: `scale(${scale})` }} />
+              </div>
+            );
+          })}
 
           {tooltip && (
             <div className="tooltip" style={{ left: tooltip.x, top: tooltip.y }}>

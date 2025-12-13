@@ -42,9 +42,9 @@
 
 .finish-button { margin-top:20px; background:linear-gradient(45deg,#D2691E,#8B4513); color:#F5DEB3; border:2px solid #654321; padding:10px 14px; border-radius:12px; cursor:pointer }
 
-.placed { background: rgba(210,105,30,0.1); border:1px solid rgba(139,69,19,0.2); padding:4px 8px; border-radius:6px }
-.placed-img { width:60px; height:45px; object-fit:contain; display:block }
-.placed-label { font-size:0.8rem; text-align:center; color:#8B4513; margin-top:4px }
+.placed { background: transparent; border: none; padding: 0; border-radius: 0; }
+.placed-img { width:100px; height:auto; object-fit:contain; display:block; transform-origin:center; }
+.placed-label { display:none; }
 .absolute { position:absolute; }
 .small { font-size:0.9rem }
 
@@ -53,3 +53,11 @@
 .congrats { margin-top:20px; background:rgba(245,222,179,0.95); padding:12px; border-radius:10px; border:2px solid #D2691E }
 
 .game-button.small { padding:8px 10px; font-size:0.9rem }
+
+.placeholder.occupied { border:none; background:transparent; width:auto; height:auto; padding:0; }
+.placeholder.occupied .placeholder-img { width:120px; height:auto; object-fit:contain; display:block }
+.placeholder-img { display:block; }
+.modal-overlay { position:fixed; left:0; top:0; right:0; bottom:0; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:3000; }
+.modal-content { background:#fff8dc; color:#8B4513; padding:20px; border-radius:12px; border:2px solid #D2691E; max-width:420px; text-align:center; box-shadow:0 12px 40px rgba(139,69,19,0.6); }
+.modal-content h2 { margin-top:0; }
+.modal-content .game-button { margin-top:12px; }
