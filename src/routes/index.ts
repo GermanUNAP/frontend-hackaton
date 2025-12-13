@@ -18,6 +18,12 @@ export const routes: RouteConfig[] = [
     allowedRoles: [],
     requiresAuth: false,
   },
+  {
+    path: '/wordle',
+    component: 'WordlePage',
+    allowedRoles: ['student'],
+    requiresAuth: true,
+  },
   // Add more routes as needed
   // {
   //   path: '/teacher-dashboard',
