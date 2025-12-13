@@ -47,9 +47,7 @@ const Home: React.FC = () => {
           {user?.role === 'student' && (
             <div className="button-grid">
               <Link to="/wordle" className="game-button">📚 Adivina la palabra</Link>
-              <button className="game-button" onClick={() => handleButtonClick('Juegos')}>
-                🎮 Ritual de agradecimiento
-              </button>
+              <Link to="/ritual" className="game-button">🎮 Ritual de agradecimiento</Link>
               <button className="game-button" onClick={() => handleButtonClick('Conoce las partes del cuerpo humano')}>
                 📊 Conoce las partes del cuerpo humano
               </button>
