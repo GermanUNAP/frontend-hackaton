@@ -5,6 +5,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
 import WordlePage from './components/WordlePage';
+import Ritual from './components/Ritual';
 import './App.css';
 
 const AppContent: React.FC = () => {
@@ -16,6 +17,7 @@ const AppContent: React.FC = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/wordle" element={<WordlePage lang="ay" />} />
+        <Route path="/ritual" element={<Ritual />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     );

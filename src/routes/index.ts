@@ -24,6 +24,12 @@ export const routes: RouteConfig[] = [
     allowedRoles: ['student'],
     requiresAuth: true,
   },
+  {
+    path: '/ritual',
+    component: 'Ritual',
+    allowedRoles: ['student'],
+    requiresAuth: true,
+  },
   // Add more routes as needed
   // {
   //   path: '/teacher-dashboard',

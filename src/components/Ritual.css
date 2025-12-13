@@ -1,0 +1,55 @@
+/* Styles inspired by Home.css to keep theme consistent */
+.ritual-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #8B4513 0%, #D2691E 50%, #654321 100%);
+  color: #F5DEB3;
+  font-family: 'Fredoka One', sans-serif;
+  padding: 20px;
+}
+
+.ritual-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.ritual-header h1 { margin:0; font-size:2rem; color:#F5DEB3; text-shadow:2px 2px 4px #654321 }
+
+.ritual-main { display:flex; gap:20px; align-items:flex-start; }
+
+.blanket {
+  border: 4px solid #D2691E;
+  width: 66%;
+  height: 500px;
+  border-radius: 20px;
+  position: relative;
+  box-shadow: 0 12px 40px rgba(139, 69, 19, 0.6);
+  overflow: hidden;
+}
+
+.placeholder { position:absolute; width:140px; height:140px; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#8B4513; border:2px dashed rgba(139,69,19,0.4); background: rgba(255,255,255,0.6); }
+.placeholder.left { left:20px; top:50%; transform:translateY(-50%); }
+.placeholder.right { right:20px; top:50%; transform:translateY(-50%); }
+.placeholder.center { left:50%; top:50%; transform:translate(-50%,-50%); width:160px; height:160px }
+.ph-label { font-size:0.95rem; text-align:center; padding:8px }
+
+.item-bar { width: 32%; background: rgba(245,222,179,0.95); border-radius:20px; padding:20px; border:3px solid #D2691E; color:#8B4513 }
+.items { display:flex; flex-wrap:wrap; gap:10px; margin-top:10px }
+.bar-item { background: linear-gradient(45deg,#FFF8DC,#F5DEB3); border:2px solid #D2691E; padding:10px 12px; border-radius:12px; cursor:grab; box-shadow:0 4px 10px rgba(139,69,19,0.2); display:flex; flex-direction:column; align-items:center; gap:6px; }
+.bar-item-img { width:80px; height:50px; object-fit:contain; }
+.bar-label { font-size:0.9rem; color:#8B4513 }
+
+.finish-button { margin-top:20px; background:linear-gradient(45deg,#D2691E,#8B4513); color:#F5DEB3; border:2px solid #654321; padding:10px 14px; border-radius:12px; cursor:pointer }
+
+.placed { background: rgba(210,105,30,0.1); border:1px solid rgba(139,69,19,0.2); padding:4px 8px; border-radius:6px }
+.placed-img { width:60px; height:45px; object-fit:contain; display:block }
+.placed-label { font-size:0.8rem; text-align:center; color:#8B4513; margin-top:4px }
+.absolute { position:absolute; }
+.small { font-size:0.9rem }
+
+.tooltip { position:fixed; background:#fff8dc; color:#8B4513; border:1px solid #D2691E; padding:6px 8px; border-radius:6px; box-shadow:0 6px 20px rgba(139,69,19,0.4); z-index:2000 }
+
+.congrats { margin-top:20px; background:rgba(245,222,179,0.95); padding:12px; border-radius:10px; border:2px solid #D2691E }
+
+.game-button.small { padding:8px 10px; font-size:0.9rem }
