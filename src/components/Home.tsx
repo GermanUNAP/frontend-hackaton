@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Home.css';
 
@@ -46,9 +46,7 @@ const Home: React.FC = () => {
 
           {user?.role === 'student' && (
             <div className="button-grid">
-              <button className="game-button" onClick={() => handleButtonClick('Lecciones')}>
-                📚 Adivina la palabra
-              </button>
+              <Link to="/wordle" className="game-button">📚 Adivina la palabra</Link>
               <button className="game-button" onClick={() => handleButtonClick('Juegos')}>
                 🎮 Ritual de agradecimiento
               </button>
