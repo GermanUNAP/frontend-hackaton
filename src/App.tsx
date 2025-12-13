@@ -6,6 +6,7 @@ import Register from './components/Register';
 import Home from './components/Home';
 import WordlePage from './components/WordlePage';
 import Ritual from './components/Ritual';
+import TuxTyping from './components/TuxTypingNew';
 import './App.css';
 import ProtectedRoute from './components/ProtectedRoute';
 import BodyPartsGame from './components/BodyPartsGame';
@@ -20,6 +21,7 @@ const AppContent: React.FC = () => {
         <Route path="/" element={<Home />} />
         <Route path="/wordle" element={<WordlePage lang="ay" />} />
         <Route path="/ritual" element={<Ritual />} />
+        <Route path="/tux" element={<TuxTyping />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     );
@@ -64,6 +66,14 @@ const AppContent: React.FC = () => {
         element={
           <ProtectedRoute>
             <BodyPartsGame />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/tux"
+        element={
+          <ProtectedRoute>
+            <TuxTyping />
           </ProtectedRoute>
         }
       />

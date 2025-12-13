@@ -48,6 +48,7 @@ const Home: React.FC = () => {
             <div className="button-grid">
               <Link to="/wordle" className="game-button">📚 Adivina la palabra</Link>
               <Link to="/ritual" className="game-button">🎮 Ritual de agradecimiento</Link>
+              <Link to="/tux" className="game-button">🐧 Escribe con Tux</Link>
               <button className="game-button" onClick={() => handleButtonClick('Conoce las partes del cuerpo humano')}>
                 📊 Conoce las partes del cuerpo humano
               </button>
