@@ -18,6 +18,7 @@ const AppContent: React.FC = () => {
     return (
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/body-parts-game" element={<BodyPartsGame />} />
         <Route path="/wordle" element={<WordlePage lang="ay" />} />
         <Route path="/ritual" element={<Ritual />} />
         <Route path="*" element={<Navigate to="/" replace />} />
@@ -51,31 +52,7 @@ const AppContent: React.FC = () => {
           )
         }
       />
-      <Route
-        path="/"
-        element={
-          <ProtectedRoute>
-            <Home />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/body-parts-game"
-        element={
-          <ProtectedRoute>
-            <BodyPartsGame />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/wordle"
-        element={
-          <ProtectedRoute>
-            <WordlePage lang="ay" />
-          </ProtectedRoute>
-        }
-      />
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );
 };
