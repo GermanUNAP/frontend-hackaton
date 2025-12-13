@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './components/Login';
 import Register from './components/Register';
@@ -19,6 +19,7 @@ const AppContent: React.FC = () => {
     return (
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/body-parts-game" element={<BodyPartsGame />} />
         <Route path="/wordle" element={<WordlePage lang="ay" />} />
         <Route path="/ritual" element={<Ritual />} />
         <Route path="/tux" element={<TuxTyping />} />
@@ -77,18 +78,18 @@ const AppContent: React.FC = () => {
           </ProtectedRoute>
         }
       />
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );
 };
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
+    <Router>
       <AuthProvider>
         <AppContent />
       </AuthProvider>
-    </BrowserRouter>
+    </Router>
   );
 };
 
