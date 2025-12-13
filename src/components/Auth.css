@@ -1,0 +1,135 @@
+/* Tema Educativo Futurista */
+:root {
+  --color1: #0000ff; /* Azul intenso */
+  --color2: #ffffff; /* Blanco */
+  --color3: #00ff00; /* Verde intenso */
+  --background: linear-gradient(135deg, var(--color1) 0%, var(--color3) 100%);
+  --card-bg: rgba(255, 255, 255, 0.1);
+  --text-color: var(--color2);
+  --error-color: #ff0000; /* Rojo intenso para errores */
+}
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: var(--background);
+  font-family: 'Arial', sans-serif;
+}
+
+.auth-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 100%;
+  max-width: 400px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.auth-title {
+  color: var(--text-color);
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 2rem;
+  text-shadow: 0 0 10px var(--color1);
+}
+
+.auth-subtitle {
+  color: var(--color3);
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 1rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  color: var(--text-color);
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-color);
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.input-group input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.input-group input:focus {
+  box-shadow: 0 0 10px var(--color1);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.auth-button {
+  background: linear-gradient(45deg, var(--color1), var(--color2));
+  color: var(--color1);
+  border: none;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.auth-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px var(--color1);
+}
+
+.auth-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.error {
+  color: var(--error-color);
+  text-align: center;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.auth-link {
+  text-align: center;
+  margin-top: 20px;
+  color: var(--text-color);
+}
+
+.auth-link span {
+  color: var(--color3);
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.auth-link span:hover {
+  text-decoration: underline;
+}
