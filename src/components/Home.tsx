@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { FaUser, FaSignOutAlt, FaBook, FaPray, FaKeyboard, FaPuzzlePiece, FaBrain, FaMicrophone, FaTrophy, FaUsers, FaQuestionCircle, FaChalkboardTeacher, FaEdit, FaUserGraduate, FaChartBar, FaBookOpen } from 'react-icons/fa';
 import './Home.css';
 
 const Home: React.FC = () => {
@@ -92,7 +93,7 @@ const Home: React.FC = () => {
             className="user-menu-button"
             onClick={() => setShowUserMenu(!showUserMenu)}
           >
-            👤
+            <FaUser />
           </button>
           {showUserMenu && (
             <div className="user-menu">
@@ -101,7 +102,7 @@ const Home: React.FC = () => {
                 <p><strong>Email:</strong> {user?.email}</p>
                 <p><strong>Rol:</strong> {user?.role === 'student' ? 'Estudiante' : 'Profesor'}</p>
               </div>
-              <button onClick={logout} className="logout-button">Cerrar Sesión 🚪</button>
+              <button onClick={logout} className="logout-button">Cerrar Sesión <FaSignOutAlt /></button>
             </div>
           )}
         </div>
@@ -113,20 +114,20 @@ const Home: React.FC = () => {
 
           {user?.role === 'student' && (
             <div className="button-grid">
-              <Link to="/wordle" className="game-button">📚 Adivina la palabra</Link>
-              <Link to="/ritual" className="game-button">🎮 Ritual de agradecimiento</Link>
-              <Link to="/tux" className="game-button">🐧 Escribe con Tux</Link>
-              <Link to="/puzzle" className="game-button">🧩 Rompecabezas</Link>
-              <Link className="game-button" to="/body-parts-game">🧠 Conoce las partes del cuerpo humano</Link>
-              <Link to="/audio" className="game-button">🎧 Reconocimiento de voz</Link>
+              <Link to="/wordle" className="game-button"><FaBook /> Adivina la palabra</Link>
+              <Link to="/ritual" className="game-button"><FaPray /> Ritual de agradecimiento</Link>
+              <Link to="/tux" className="game-button"><FaKeyboard /> Escribe con Tux</Link>
+              <Link to="/puzzle" className="game-button"><FaPuzzlePiece /> Rompecabezas</Link>
+              <Link className="game-button" to="/body-parts-game"><FaBrain /> Conoce las partes del cuerpo humano</Link>
+              <Link to="/audio" className="game-button"><FaMicrophone /> Reconocimiento de voz</Link>
               <button className="game-button" onClick={() => handleButtonClick('Logros')}>
-                🏆 Logros y Medallas
+                <FaTrophy /> Logros y Medallas
               </button>
               <button className="game-button" onClick={() => handleButtonClick('Amigos')}>
-                👫 Amigos y Compañeros
+                <FaUsers /> Amigos y Compañeros
               </button>
               <button className="game-button" onClick={() => handleButtonClick('Ayuda')}>
-                ❓ Centro de Ayuda
+                <FaQuestionCircle /> Centro de Ayuda
               </button>
             </div>
           )}
@@ -134,22 +135,22 @@ const Home: React.FC = () => {
           {user?.role === 'teacher' && (
             <div className="button-grid">
               <button className="game-button" onClick={() => handleButtonClick('Clases')}>
-                📝 Gestión de Clases
+                <FaChalkboardTeacher /> Gestión de Clases
               </button>
               <button className="game-button" onClick={() => handleButtonClick('Contenido')}>
-                ✏️ Creación de Contenido
+                <FaEdit /> Creación de Contenido
               </button>
               <button className="game-button" onClick={() => handleButtonClick('Estudiantes')}>
-                👨‍🎓 Seguimiento de Estudiantes
+                <FaUserGraduate /> Seguimiento de Estudiantes
               </button>
               <button className="game-button" onClick={() => handleButtonClick('Reportes')}>
-                📈 Reportes y Estadísticas
+                <FaChartBar /> Reportes y Estadísticas
               </button>
               <button className="game-button" onClick={() => handleButtonClick('Recursos')}>
-                📚 Biblioteca de Recursos
+                <FaBookOpen /> Biblioteca de Recursos
               </button>
               <button className="game-button" onClick={() => handleButtonClick('Ayuda')}>
-                ❓ Centro de Ayuda
+                <FaQuestionCircle /> Centro de Ayuda
               </button>
             </div>
           )}
