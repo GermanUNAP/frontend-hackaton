@@ -49,4 +49,10 @@ export const routes: RouteConfig[] = [
   //   allowedRoles: ['student'],
   //   requiresAuth: true,
   // },
+  {
+    path: '/audio',
+    component: 'Audio',
+    allowedRoles: ['student', 'teacher'],
+    requiresAuth: true,
+  },
 ];

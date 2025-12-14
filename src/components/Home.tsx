@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Home.css';
@@ -7,6 +7,73 @@ const Home: React.FC = () => {
   const { user, logout } = useAuth();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const navigate = useNavigate();
+
+  const [listening, setListening] = useState(false);
+  const [transcript, setTranscript] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const recognitionRef = useRef<any>(null);
+
+  const startListening = () => {
+    setError(null);
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      setError('SpeechRecognition no es soportado en este navegador.');
+      return;
+    }
+    try {
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'es-ES';
+      recognition.interimResults = true;
+      recognition.onresult = (event: any) => {
+        let interim = '';
+        let final = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          const res = event.results[i];
+          if (res.isFinal) {
+            final += res[0].transcript;
+          } else {
+            interim += res[0].transcript;
+          }
+        }
+        setTranscript((prev) => (final ? prev + ' ' + final : prev + interim));
+        if (final) {
+          const SERVER_URL = process.env.REACT_APP_SERVER_URL || process.env.REACT_APP_API_URL || '';
+          if (SERVER_URL) {
+            fetch(SERVER_URL, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ text: final, lang: 'es' }),
+            }).catch((err) => console.error('Error sending transcript', err));
+          }
+        }
+      };
+      recognition.onerror = (e: any) => setError(e.error || 'Error en reconocimiento');
+      recognition.onend = () => setListening(false);
+      recognitionRef.current = recognition;
+      recognition.start();
+      setListening(true);
+    } catch (err: any) {
+      setError(err.message || 'Error iniciando reconocimiento');
+    }
+  };
+
+  const stopListening = () => {
+    const r = recognitionRef.current;
+    if (r) {
+      try { r.stop(); } catch (_) {}
+      recognitionRef.current = null;
+    }
+    setListening(false);
+  };
+
+  useEffect(() => {
+    return () => {
+      const r = recognitionRef.current;
+      if (r) {
+        try { r.onresult = null; r.onend = null; r.onerror = null; r.stop(); } catch (_) {}
+      }
+    };
+  }, []);
 
   const handleButtonClick = (action: string) => {
     if (action === 'Conoce las partes del cuerpo humano') {
@@ -53,6 +120,8 @@ const Home: React.FC = () => {
               <button className="game-button" onClick={() => handleButtonClick('Conoce las partes del cuerpo humano')}>
                 📊 Conoce las partes del cuerpo humano
               </button>
+              <Link className="game-button" to="/body-parts-game">🧠 Conoce las partes del cuerpo humano</Link>
+              <Link to="/audio" className="game-button">🎧 Reconocimiento de voz</Link>
               <button className="game-button" onClick={() => handleButtonClick('Logros')}>
                 🏆 Logros y Medallas
               </button>
