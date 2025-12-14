@@ -37,6 +37,7 @@ const Login: React.FC = () => {
   return (
     <div className="auth-container">
       <div className="auth-card">
+        <img src="/wawa_aru.png" alt="Logo" className="auth-logo" />
         <h2 className="auth-title">¡Bienvenido de vuelta, Aprendiz!</h2>
         <p className="auth-subtitle">Continúa tu viaje educativo</p>
         <form onSubmit={handleSubmit} className="auth-form">

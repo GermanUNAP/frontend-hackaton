@@ -40,7 +40,8 @@ const Register: React.FC = () => {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2 className="auth-title">¡Únete a la Comunidad Educativa!</h2>
+        <img src="/wawa_aru.png" alt="Logo" className="auth-logo" />
+        <h5 className="auth-title">¡Únete a la Comunidad Educativa!</h5>
         <p className="auth-subtitle">Comienza tu aventura de aprendizaje</p>
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="input-group">
