@@ -1,10 +1,12 @@
 /* Tema Marrón para Home - Estilo de Juego */
 .home-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #8B4513 0%, #D2691E 50%, #654321 100%);
-  font-family: 'Fredoka One', sans-serif;
-  color: #F5DEB3;
+  font-family: "Fredoka One", sans-serif;
+  color: #f5deb3;
   padding: 20px;
+  background-image: url("imgs/bg.png");
+  background-size: cover;
+  background-position: bottom;
   position: relative;
 }
 
@@ -29,7 +31,7 @@
 }
 
 .user-menu-button {
-  background: linear-gradient(45deg, #D2691E, #8B4513);
+  background: linear-gradient(45deg, #d2691e, #8b4513);
   border: 3px solid #654321;
   border-radius: 50%;
   width: 60px;
@@ -50,13 +52,13 @@
   top: 70px;
   right: 0;
   background: rgba(245, 222, 179, 0.95);
-  border: 3px solid #D2691E;
+  border: 3px solid #d2691e;
   border-radius: 15px;
   padding: 20px;
   box-shadow: 0 8px 32px rgba(139, 69, 19, 0.5);
   min-width: 250px;
   z-index: 1000;
-  color: #8B4513;
+  color: #8b4513;
 }
 
 .user-info p {
@@ -65,15 +67,15 @@
 }
 
 .logout-button {
-  background: linear-gradient(45deg, #D2691E, #8B4513);
-  color: #F5DEB3;
+  background: linear-gradient(45deg, #d2691e, #8b4513);
+  color: #f5deb3;
   border: 2px solid #654321;
   padding: 8px 15px;
   border-radius: 10px;
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-family: 'Fredoka One', sans-serif;
+  font-family: "Fredoka One", sans-serif;
   margin-top: 10px;
   width: 100%;
 }
@@ -95,18 +97,18 @@
   border-radius: 25px;
   padding: 40px;
   box-shadow: 0 12px 40px rgba(139, 69, 19, 0.6);
-  border: 4px solid #D2691E;
+  border: 4px solid #d2691e;
   max-width: 800px;
   width: 100%;
   text-align: center;
-  color: #8B4513;
+  color: #8b4513;
 }
 
 .dashboard-title {
   font-size: 2.5rem;
   margin-bottom: 30px;
   text-shadow: 2px 2px 4px #654321;
-  color: #8B4513;
+  color: #8b4513;
 }
 
 .button-grid {
@@ -117,16 +119,16 @@
 }
 
 .game-button {
-  background: linear-gradient(45deg, #FFF8DC, #F5DEB3);
-  border: 3px solid #D2691E;
+  background: linear-gradient(45deg, #fff8dc, #f5deb3);
+  border: 3px solid #d2691e;
   border-radius: 20px;
   padding: 20px;
   font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-family: 'Fredoka One', sans-serif;
-  color: #8B4513;
+  font-family: "Fredoka One", sans-serif;
+  color: #8b4513;
   text-align: center;
   box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
   position: relative;
@@ -134,13 +136,18 @@
 }
 
 .game-button::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
   transition: left 0.5s;
 }
 
@@ -151,7 +158,7 @@
 .game-button:hover {
   transform: translateY(-5px) scale(1.05);
   box-shadow: 0 8px 25px rgba(139, 69, 19, 0.6);
-  background: linear-gradient(45deg, #F5DEB3, #FFF8DC);
+  background: linear-gradient(45deg, #f5deb3, #fff8dc);
 }
 
 .game-button:active {

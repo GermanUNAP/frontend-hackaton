@@ -1,7 +1,9 @@
 /* Styles inspired by Home.css to keep theme consistent */
 .ritual-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #8B4513 0%, #D2691E 50%, #654321 100%);
+  background-image: url("imgs/bg.png");
+  background-size: cover;
+  background-position: bottom;
   color: #F5DEB3;
   font-family: 'Fredoka One', sans-serif;
   padding: 20px;

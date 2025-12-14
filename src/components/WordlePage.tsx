@@ -121,6 +121,7 @@ const WordlePage: React.FC<{ lang: 'es' | 'ay' }> = ({ lang = 'ay' }) => {
       const translation = getTranslationForTarget()
       setMessage(translation ? `¡Correcto! — Español: ${translation.toUpperCase()}` : '¡Correcto!')
       setGameOver(true)
+      playAymaraTTS(target)
       return
     }
 
@@ -128,6 +129,7 @@ const WordlePage: React.FC<{ lang: 'es' | 'ay' }> = ({ lang = 'ay' }) => {
       const translation = getTranslationForTarget()
       setMessage(translation ? `Fin del juego. La palabra era: ${target} — Español: ${translation.toUpperCase()}` : `Fin del juego. La palabra era: ${target}`)
       setGameOver(true)
+      playAymaraTTS(target)
       return
     }
 
@@ -183,6 +185,23 @@ const WordlePage: React.FC<{ lang: 'es' | 'ay' }> = ({ lang = 'ay' }) => {
     setMessage('')
     inputsRef.current = []
     setGridSize(size)
+  }
+
+  const playAymaraTTS = async (text: string) => {
+    try {
+      const res = await fetch((process.env.REACT_APP_TTS_URL || '') + '/tts/ayr', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
+      })
+      const blob = await res.blob()
+      const audioUrl = URL.createObjectURL(blob)
+      const audio = document.createElement('audio')
+      audio.src = audioUrl
+      await audio.play().catch(() => {})
+    } catch (err) {
+      console.error('TTS error', err)
+    }
   }
 
   return (
