@@ -8,16 +8,23 @@ interface BodyPart {
   name: string;
   keypoint: string;
   spanish: string;
+  aymara: string;
 }
 
 const bodyParts: BodyPart[] = [
-  { name: 'nose', keypoint: 'nose', spanish: 'nariz' },
-  { name: 'leftEye', keypoint: 'left_eye', spanish: 'ojo izquierdo' },
-  { name: 'rightEye', keypoint: 'right_eye', spanish: 'ojo derecho' },
-  { name: 'leftEar', keypoint: 'left_ear', spanish: 'oreja izquierda' },
-  { name: 'rightEar', keypoint: 'right_ear', spanish: 'oreja derecha' },
-  { name: 'leftShoulder', keypoint: 'left_shoulder', spanish: 'hombro izquierdo' },
-  { name: 'rightShoulder', keypoint: 'right_shoulder', spanish: 'hombro derecho' },
+  { name: 'nose', keypoint: 'nose', spanish: 'cara', aymara: 'ajanu' },
+  { name: 'leftShoulder', keypoint: 'left_shoulder', spanish: 'hombro izquierdo', aymara: 'ch\'iqa callachi' },
+  { name: 'rightShoulder', keypoint: 'right_shoulder', spanish: 'hombro derecho', aymara: 'kupi callachi' },
+  { name: 'leftElbow', keypoint: 'left_elbow', spanish: 'brazo izquierdo', aymara: 'ch\'iqa ampara' },
+  { name: 'rightElbow', keypoint: 'right_elbow', spanish: 'brazo derecho', aymara: 'kupi ampara' },
+  { name: 'leftWrist', keypoint: 'left_wrist', spanish: 'muñeca izquierda', aymara: 'ch\'iqa amparmoqo' },
+  { name: 'rightWrist', keypoint: 'right_wrist', spanish: 'muñeca derecha', aymara: 'kupi amparmoqo' },
+  { name: 'leftWrist', keypoint: 'left_wrist', spanish: 'mano izquierda', aymara: 'ch\'iqa amparquta' },
+  { name: 'rightWrist', keypoint: 'right_wrist', spanish: 'mano derecha', aymara: 'kupi amparquta' },
+  { name: 'leftAnkle', keypoint: 'left_ankle', spanish: 'pie izquierdo', aymara: 'ch\'iqa cayu' },
+  { name: 'rightAnkle', keypoint: 'right_ankle', spanish: 'pie derecho', aymara: 'kupi cayu' },
+  { name: 'leftAnkle', keypoint: 'left_ankle', spanish: 'tobillo izquierdo', aymara: 'ch\'iqa cayumoqo' },
+  { name: 'rightAnkle', keypoint: 'right_ankle', spanish: 'tobillo derecho', aymara: 'kupi cayumoqo' },
 ];
 
 const BodyPartsGame: React.FC = () => {
@@ -25,10 +32,8 @@ const BodyPartsGame: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const navigate = useNavigate();
   const detectorRef = useRef<poseDetection.PoseDetector | null>(null);
-  const [currentPart, setCurrentPart] = useState<BodyPart>(bodyParts[0]);
-  const [score, setScore] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [message, setMessage] = useState('¡Cargando modelo de detección de poses! La cámara se encenderá automáticamente.');
+  const [currentPart, setCurrentPart] = useState<BodyPart>(bodyParts[Math.floor(Math.random() * bodyParts.length)]);
+  const [message, setMessage] = useState('¡Cargando modelo de detección de poses! La cámara se encenderá automáticamente. Aprende partes del cuerpo en Aymara.');
   const [isModelLoading, setIsModelLoading] = useState(false);
 
   useEffect(() => {
@@ -42,11 +47,11 @@ const BodyPartsGame: React.FC = () => {
         );
         detectorRef.current = detector;
         setIsModelLoading(false);
+        setMessage('¡Modelo cargado! Mira tu cuerpo en la cámara. La parte resaltada está en Aymara.');
       } catch (error) {
         console.error('Error initializing pose detection:', error);
         setMessage('Error al cargar el modelo de detección de poses');
         setIsModelLoading(false);
-        setMessage('¡Modelo cargado! Verás cuadros alrededor de la cara y manos.');
       }
     };
 
@@ -105,6 +110,9 @@ const BodyPartsGame: React.FC = () => {
         // Draw bounding boxes for face and hands
         drawFaceBox(pose, ctx);
         drawHandBoxes(pose, ctx);
+
+        // Highlight current body part
+        highlightCurrentPart(pose, ctx);
       }
 
       requestAnimationFrame(detectPose);
@@ -198,71 +206,31 @@ const BodyPartsGame: React.FC = () => {
     });
   };
 
-  const checkPointing = (hand: poseDetection.Keypoint, ctx: CanvasRenderingContext2D) => {
-    let targetArea = null;
-    switch (currentPart.name) {
-      case 'nose':
-        targetArea = { x: ctx.canvas.width * 0.4, y: ctx.canvas.height * 0.3, width: ctx.canvas.width * 0.2, height: ctx.canvas.height * 0.1 };
-        break;
-      case 'leftEye':
-        targetArea = { x: ctx.canvas.width * 0.3, y: ctx.canvas.height * 0.25, width: ctx.canvas.width * 0.1, height: ctx.canvas.height * 0.05 };
-        break;
-      case 'rightEye':
-        targetArea = { x: ctx.canvas.width * 0.6, y: ctx.canvas.height * 0.25, width: ctx.canvas.width * 0.1, height: ctx.canvas.height * 0.05 };
-        break;
-      case 'leftEar':
-        targetArea = { x: ctx.canvas.width * 0.2, y: ctx.canvas.height * 0.3, width: ctx.canvas.width * 0.05, height: ctx.canvas.height * 0.1 };
-        break;
-      case 'rightEar':
-        targetArea = { x: ctx.canvas.width * 0.75, y: ctx.canvas.height * 0.3, width: ctx.canvas.width * 0.05, height: ctx.canvas.height * 0.1 };
-        break;
-      case 'leftShoulder':
-        targetArea = { x: ctx.canvas.width * 0.25, y: ctx.canvas.height * 0.6, width: ctx.canvas.width * 0.15, height: ctx.canvas.height * 0.1 };
-        break;
-      case 'rightShoulder':
-        targetArea = { x: ctx.canvas.width * 0.6, y: ctx.canvas.height * 0.6, width: ctx.canvas.width * 0.15, height: ctx.canvas.height * 0.1 };
-        break;
-    }
+  const highlightCurrentPart = (pose: poseDetection.Pose, ctx: CanvasRenderingContext2D) => {
+    const kp = pose.keypoints.find((k: poseDetection.Keypoint) => k.name === currentPart.keypoint);
+    if (kp && kp.score !== undefined && kp.score > 0.5) {
+      ctx.beginPath();
+      ctx.arc(kp.x, kp.y, 10, 0, 2 * Math.PI);
+      ctx.fillStyle = 'yellow';
+      ctx.fill();
 
-    if (targetArea) {
-      ctx.strokeStyle = 'yellow';
-      ctx.lineWidth = 3;
-      ctx.strokeRect(targetArea.x, targetArea.y, targetArea.width, targetArea.height);
-
-      ctx.fillStyle = 'rgba(255, 255, 0, 0.2)';
-      ctx.fillRect(targetArea.x, targetArea.y, targetArea.width, targetArea.height);
-
-      if (hand.x >= targetArea.x && hand.x <= targetArea.x + targetArea.width &&
-          hand.y >= targetArea.y && hand.y <= targetArea.y + targetArea.height) {
-        setScore(prev => prev + 1);
-        const currentIndex = bodyParts.indexOf(currentPart);
-        const nextIndex = (currentIndex + 1) % bodyParts.length;
-        setCurrentPart(bodyParts[nextIndex]);
-        setMessage(`¡Excelente! Ahora apunta a tu ${bodyParts[nextIndex].spanish}`);
-      }
+      ctx.fillStyle = 'black';
+      ctx.font = '20px Arial';
+      ctx.fillText(currentPart.aymara, kp.x + 15, kp.y - 5);
     }
   };
 
-  const startGame = () => {
-    if (!detectorRef.current) {
-      setMessage('Cargando modelo de detección de poses...');
-      return;
-    }
-    setIsPlaying(true);
-    setMessage('¡Juego iniciado! Apunta a las partes del cuerpo con la mano.');
-  };
-
-  const stopGame = () => {
-    setIsPlaying(false);
-    setMessage('Juego detenido. ¡Vuelve pronto!');
+  const showNewPart = () => {
+    const randomIndex = Math.floor(Math.random() * bodyParts.length);
+    setCurrentPart(bodyParts[randomIndex]);
+    setMessage(`Nueva parte del cuerpo: ${bodyParts[randomIndex].spanish} (${bodyParts[randomIndex].aymara})`);
   };
 
   return (
     <div className="body-parts-game">
       <header className="game-header">
         <button onClick={() => navigate('/')} className="back-button">← Volver</button>
-        <h1>Conoce las Partes del Cuerpo Humano</h1>
-        <div className="score">Puntuación: {score}</div>
+        <h1>Aprende Partes del Cuerpo en Aymara</h1>
       </header>
 
       <div className="game-content">
@@ -321,15 +289,11 @@ const BodyPartsGame: React.FC = () => {
 
         <div className="instructions">
           <p className="message">{message}</p>
-          <p className="current-part">Parte actual: <strong>{currentPart.spanish}</strong></p>
+          <p className="current-part">Parte actual: <strong>{currentPart.spanish} ({currentPart.aymara})</strong></p>
           <div className="game-controls">
-            {!isPlaying ? (
-              <button onClick={startGame} className="start-button" disabled={isModelLoading}>
-                {isModelLoading ? 'Cargando modelo...' : 'Iniciar Juego'}
-              </button>
-            ) : (
-              <button onClick={stopGame} className="stop-button">Detener</button>
-            )}
+            <button onClick={showNewPart} className="start-button" disabled={isModelLoading}>
+              {isModelLoading ? 'Cargando modelo...' : 'Mostrar Nuevo'}
+            </button>
           </div>
         </div>
       </div>
