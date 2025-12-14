@@ -19,10 +19,6 @@ const bodyParts: BodyPart[] = [
   { name: 'rightElbow', keypoint: 'right_elbow', spanish: 'brazo derecho', aymara: 'kupi ampara' },
   { name: 'leftWrist', keypoint: 'left_wrist', spanish: 'muñeca izquierda', aymara: 'ch\'iqa amparmoqo' },
   { name: 'rightWrist', keypoint: 'right_wrist', spanish: 'muñeca derecha', aymara: 'kupi amparmoqo' },
-  { name: 'leftWrist', keypoint: 'left_wrist', spanish: 'mano izquierda', aymara: 'ch\'iqa amparquta' },
-  { name: 'rightWrist', keypoint: 'right_wrist', spanish: 'mano derecha', aymara: 'kupi amparquta' },
-  { name: 'leftAnkle', keypoint: 'left_ankle', spanish: 'pie izquierdo', aymara: 'ch\'iqa cayu' },
-  { name: 'rightAnkle', keypoint: 'right_ankle', spanish: 'pie derecho', aymara: 'kupi cayu' },
   { name: 'leftAnkle', keypoint: 'left_ankle', spanish: 'tobillo izquierdo', aymara: 'ch\'iqa cayumoqo' },
   { name: 'rightAnkle', keypoint: 'right_ankle', spanish: 'tobillo derecho', aymara: 'kupi cayumoqo' },
 ];
@@ -32,7 +28,8 @@ const BodyPartsGame: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const navigate = useNavigate();
   const detectorRef = useRef<poseDetection.PoseDetector | null>(null);
-  const [currentPart, setCurrentPart] = useState<BodyPart>(bodyParts[Math.floor(Math.random() * bodyParts.length)]);
+  const [currentIndex, setCurrentIndex] = useState(5);
+  const currentPart = bodyParts[currentIndex];
   const [message, setMessage] = useState('¡Cargando modelo de detección de poses! La cámara se encenderá automáticamente. Aprende partes del cuerpo en Aymara.');
   const [isModelLoading, setIsModelLoading] = useState(false);
 
@@ -107,10 +104,6 @@ const BodyPartsGame: React.FC = () => {
         // Draw keypoints
         drawPose(pose, ctx);
 
-        // Draw bounding boxes for face and hands
-        drawFaceBox(pose, ctx);
-        drawHandBoxes(pose, ctx);
-
         // Highlight current body part
         highlightCurrentPart(pose, ctx);
       }
@@ -123,7 +116,7 @@ const BodyPartsGame: React.FC = () => {
 
   const drawPose = (pose: poseDetection.Pose, ctx: CanvasRenderingContext2D) => {
     pose.keypoints.forEach((keypoint: poseDetection.Keypoint) => {
-      if (keypoint.score !== undefined && keypoint.score > 0.5) {
+      if (keypoint.score !== undefined && keypoint.score > 0.3) {
         ctx.beginPath();
         ctx.arc(keypoint.x, keypoint.y, 5, 0, 2 * Math.PI);
         ctx.fillStyle = 'red';
@@ -208,22 +201,22 @@ const BodyPartsGame: React.FC = () => {
 
   const highlightCurrentPart = (pose: poseDetection.Pose, ctx: CanvasRenderingContext2D) => {
     const kp = pose.keypoints.find((k: poseDetection.Keypoint) => k.name === currentPart.keypoint);
-    if (kp && kp.score !== undefined && kp.score > 0.5) {
-      ctx.beginPath();
-      ctx.arc(kp.x, kp.y, 10, 0, 2 * Math.PI);
-      ctx.fillStyle = 'yellow';
-      ctx.fill();
+    if (kp && kp.score !== undefined && kp.score > 0.3) {
+      const size = 20;
+      ctx.strokeStyle = 'yellow';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(kp.x - size / 2, kp.y - size / 2, size, size);
 
       ctx.fillStyle = 'black';
       ctx.font = '20px Arial';
-      ctx.fillText(currentPart.aymara, kp.x + 15, kp.y - 5);
+      ctx.fillText(currentPart.aymara, kp.x + size / 2 + 5, kp.y - 5);
     }
   };
 
   const showNewPart = () => {
-    const randomIndex = Math.floor(Math.random() * bodyParts.length);
-    setCurrentPart(bodyParts[randomIndex]);
-    setMessage(`Nueva parte del cuerpo: ${bodyParts[randomIndex].spanish} (${bodyParts[randomIndex].aymara})`);
+    const newIndex = (currentIndex + 1) % bodyParts.length;
+    setCurrentIndex(newIndex);
+    setMessage(`Nueva parte del cuerpo: ${bodyParts[newIndex].aymara}`);
   };
 
   return (
@@ -289,7 +282,7 @@ const BodyPartsGame: React.FC = () => {
 
         <div className="instructions">
           <p className="message">{message}</p>
-          <p className="current-part">Parte actual: <strong>{currentPart.spanish} ({currentPart.aymara})</strong></p>
+          <p className="current-part">Parte actual: <strong>{currentPart.aymara}</strong></p>
           <div className="game-controls">
             <button onClick={showNewPart} className="start-button" disabled={isModelLoading}>
               {isModelLoading ? 'Cargando modelo...' : 'Mostrar Nuevo'}

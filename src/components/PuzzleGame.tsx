@@ -13,7 +13,7 @@ interface Piece {
 
 const PuzzleGame: React.FC = () => {
   const navigate = useNavigate();
-  const [imageSrc] = useState('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNejL3-hgcC_xmiKcx0z5NTuxy90izYXoLGA&s');
+  const [imageSrc] = useState('https://www.atlantisbolivia.org/calendarioperdido_files/cal027esp.jpg');
   const [rows, setRows] = useState(3);
   const [cols, setCols] = useState(3);
   const [pieces, setPieces] = useState<Piece[]>([]);

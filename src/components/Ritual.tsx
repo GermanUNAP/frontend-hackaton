@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import './Ritual.css';
 import { Link } from 'react-router-dom';
 import html2canvas from 'html2canvas';
+import { FaShare } from 'react-icons/fa';
 
 type ItemDef = { id: string; type: string; label: string; tooltip: string; image?: string };
 
@@ -29,6 +30,7 @@ const Ritual: React.FC = () => {
   const [finished, setFinished] = useState(false);
   const dropRef = useRef<HTMLDivElement | null>(null);
   const [notice, setNotice] = useState<{ title?: string; text: string; button?: string } | null>(null);
+  const [imageData, setImageData] = useState<string | null>(null);
 
   const reset = () => {
     setPlaced([]);
@@ -36,6 +38,18 @@ const Ritual: React.FC = () => {
     setFinished(false);
     setTooltip(null);
     setNotice(null);
+  };
+
+  const dataURLToBlob = (dataURL: string) => {
+    const arr = dataURL.split(',');
+    const mime = arr[0].match(/:(.*?);/)![1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], { type: mime });
   };
 
   const onDragStart = (e: React.DragEvent, item: ItemDef) => {
@@ -160,8 +174,8 @@ const Ritual: React.FC = () => {
       setNotice({ title: 'Copas faltantes', text: 'Coloca las dos copas en las posiciones fijas (1/3 y 2/3) para continuar.', button: 'Aceptar' });
       return;
     }
-    if (cocaCount < 3) {
-      setNotice({ title: 'Hojas de coca insuficientes', text: 'Necesitas colocar al menos 3 hojas de coca en la manta para completar el ritual.', button: 'Aceptar' });
+    if (placed.length < 1) {
+      setNotice({ title: 'Objetos insuficientes', text: 'Coloca al menos un objeto libremente en la manta para completar el ritual.', button: 'Aceptar' });
       return;
     }
     setFinished(true);
@@ -172,12 +186,35 @@ const Ritual: React.FC = () => {
     try {
       const canvas = await html2canvas(dropRef.current, { backgroundColor: null, useCORS: true });
       const data = canvas.toDataURL('image/png');
+      setImageData(data);
       const a = document.createElement('a');
       a.href = data;
       a.download = 'ritual.png';
       a.click();
     } catch (err) {
       setNotice({ title: 'Error', text: 'No se pudo exportar la imagen.', button: 'Aceptar' });
+    }
+  };
+
+  const shareImage = async () => {
+    if (!imageData) {
+      setNotice({ title: 'Imagen no generada', text: 'Primero exporta la imagen para poder compartirla.', button: 'Aceptar' });
+      return;
+    }
+    try {
+      if (navigator.share) {
+        const blob = dataURLToBlob(imageData);
+        const file = new File([blob], 'ritual.png', { type: 'image/png' });
+        await navigator.share({
+          files: [file],
+          title: 'Mi Ritual de Agradecimiento',
+          text: 'Mira mi ritual completado!'
+        });
+      } else {
+        setNotice({ title: 'Compartir no soportado', text: 'Tu navegador no soporta compartir archivos. Usa el botón de exportar para descargar la imagen.', button: 'Aceptar' });
+      }
+    } catch (err) {
+      setNotice({ title: 'Error', text: 'No se pudo compartir la imagen.', button: 'Aceptar' });
     }
   };
 
@@ -285,6 +322,7 @@ const Ritual: React.FC = () => {
               <p>Significado general: (texto de ejemplo) Este ritual es una ofrenda para agradecer a la Pachamama por la cosecha y la vida. Puedes reemplazar este texto con tu propia explicación más detallada.</p>
               <div style={{ marginTop: 12 }}>
                 <button className="finish-button" onClick={exportImage}>Exportar imagen</button>
+                <button className="finish-button" onClick={shareImage} title="Compartir" style={{ marginLeft: 8 }}><FaShare /></button>
               </div>
             </div>
           )}
