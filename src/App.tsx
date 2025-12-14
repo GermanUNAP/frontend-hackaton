@@ -10,6 +10,7 @@ import TuxTyping from './components/TuxTypingNew';
 import './App.css';
 import ProtectedRoute from './components/ProtectedRoute';
 import BodyPartsGame from './components/BodyPartsGame';
+import Audio from './components/Audio';
 
 const AppContent: React.FC = () => {
   const { isAuthenticated, user } = useAuth();
@@ -23,6 +24,7 @@ const AppContent: React.FC = () => {
         <Route path="/wordle" element={<WordlePage lang="ay" />} />
         <Route path="/ritual" element={<Ritual />} />
         <Route path="/tux" element={<TuxTyping />} />
+        <Route path="/audio" element={<Audio />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     );
@@ -75,6 +77,14 @@ const AppContent: React.FC = () => {
         element={
           <ProtectedRoute>
             <TuxTyping />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/audio"
+        element={
+          <ProtectedRoute>
+            <Audio />
           </ProtectedRoute>
         }
       />
